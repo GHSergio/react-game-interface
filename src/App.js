@@ -5,10 +5,12 @@ import { Homepage, About, Page404, Test, Test2 } from "./pages";
 import "./styles/style.scss";
 import { GameProvider } from "../src/contexts/GameContext";
 import { ModeProvider } from "./contexts/ModeContext";
+// import { BackpackProvider } from "./contexts/BackpackContext";
 
 function App() {
   return (
     <BrowserRouter>
+      {/* <BackpackProvider> */}
       <GameProvider>
         <ModeProvider>
           <Routes>
@@ -23,6 +25,7 @@ function App() {
           </Routes>
         </ModeProvider>
       </GameProvider>
+      {/* </BackpackProvider> */}
     </BrowserRouter>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, createContext, useContext } from "react";
 import Swal from "sweetalert2";
+// import { useBackpack } from "./BackpackContext";
 
 export const GameContext = createContext();
 export const useGame = () => useContext(GameContext);
@@ -74,21 +75,12 @@ export const GameProvider = ({ children }) => {
     },
   });
   const [items, setItems] = useState(Array(32).fill(null));
+  //backpack
+  const [activeItemIndex, setActiveItemIndex] = useState(null);
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
   const [isQuantityInputModalOpen, setIsQuantityInputModalOpen] =
     useState(false);
   const [quantityInputValue, setQuantityInputValue] = useState(1);
-  // const [items, setItems] = useState(Array(32).fill({}));
-
-  // items[0] = {
-  //   id: 1,
-  //   name: "回復藥",
-  //   type: "藥水",
-  //   healAmount: 50,
-  //   quantity: 10,
-  //   sellPrice: 50,
-  // };
-
-  //獲得物品
 
   const addItem = () => {
     // 在items內尋找第一個value為null的item,並 return item index
@@ -138,7 +130,6 @@ export const GameProvider = ({ children }) => {
       )
     );
     const item = items.find((item) => item && item.id === itemId);
-    // setIsQuantityInputModalOpen(true);
     if (item && item.healAmount) {
       increaseHp(item.healAmount * amount);
     }
@@ -150,7 +141,6 @@ export const GameProvider = ({ children }) => {
 
   // 出售物品
   const sellItem = (item, amount) => {
-    // setIsQuantityInputModalOpen(true);
     setItems((prevItems) =>
       prevItems.map((prevItem) =>
         prevItem && prevItem.id === item.id
@@ -286,6 +276,37 @@ export const GameProvider = ({ children }) => {
     });
   };
 
+  //添加物品
+  const handleAddItemClick = () => {
+    addItem();
+  };
+
+  //右鍵開啟選單,設activeIndex
+  const handleRightClick = (e, index) => {
+    e.preventDefault();
+    setIsMenuModalOpen(true);
+    setActiveItemIndex(index);
+  };
+
+  //關閉MenuModal
+  const handleCloseContextMenu = () => {
+    setIsMenuModalOpen(false);
+  };
+
+  const handleItemClick = (action) => {
+    const item = items[activeItemIndex];
+    if (!item) return; // 确保物品存在
+    if (action === "use" && item.quantity > 0) {
+      setIsQuantityInputModalOpen(true);
+    } else if (action === "sell" && item.quantity > 0) {
+      setIsQuantityInputModalOpen(true);
+    } else if (action === "cancel") {
+      setIsQuantityInputModalOpen(false);
+      handleCloseContextMenu();
+    }
+    handleCloseContextMenu();
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -318,10 +339,18 @@ export const GameProvider = ({ children }) => {
         sellItem,
         discardItem,
 
-        quantityInputValue,
-        setQuantityInputValue,
+        isMenuModalOpen,
+        setIsMenuModalOpen,
+        activeItemIndex,
+        setActiveItemIndex,
         isQuantityInputModalOpen,
         setIsQuantityInputModalOpen,
+        quantityInputValue,
+        setQuantityInputValue,
+        handleAddItemClick,
+        handleRightClick,
+        handleCloseContextMenu,
+        handleItemClick,
       }}
     >
       {children}

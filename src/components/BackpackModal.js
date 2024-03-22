@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ItemBlock from "./ItemBlock";
 import { useGame } from "../contexts/GameContext";
 
 function BackpackModal({ isOpen, onClose, onConfirm, title, className }) {
-  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
-  const [activeItemIndex, setActiveItemIndex] = useState(null);
+  const { items, activeItemIndex, setActiveItemIndex, handleAddItemClick } =
+    useGame();
 
-  const { addItem, items } = useGame();
-
-  // console.log(items);
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (isOpen) {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          onConfirm();
-        } else if (e.key === "Escape") {
-          e.preventDefault();
-          onClose();
-        }
+      if (isOpen && e.key === "Escape") {
+        e.stopPropagation();
+        setActiveItemIndex(null);
+        onClose();
       }
     };
 
@@ -27,24 +20,10 @@ function BackpackModal({ isOpen, onClose, onConfirm, title, className }) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onConfirm, onClose]);
+  }, [isOpen, onConfirm, onClose, setActiveItemIndex]);
 
   // 計算每行的起始index
   const getRowStartIndex = (rowIndex) => rowIndex * 8;
-
-  const handleAddItemClick = () => {
-    addItem();
-  };
-
-  const handleRightClick = (e, index) => {
-    e.preventDefault();
-    setIsMenuModalOpen(true);
-    setActiveItemIndex(index);
-  };
-
-  const handleCloseContextMenu = () => {
-    setIsMenuModalOpen(false);
-  };
 
   return (
     <dialog
@@ -52,6 +31,9 @@ function BackpackModal({ isOpen, onClose, onConfirm, title, className }) {
       tabIndex="0"
       className={isOpen ? `${className}` : "hidden"}
     >
+      <div className="cancel-button" onClick={onClose}>
+        X
+      </div>
       <h2>{title}</h2> <button onClick={handleAddItemClick}>添加物品</button>
       <div className="grid-container">
         <hr />
@@ -70,9 +52,6 @@ function BackpackModal({ isOpen, onClose, onConfirm, title, className }) {
                       key={index}
                       index={index}
                       isActive={activeItemIndex === index}
-                      onContextMenu={(e) => handleRightClick?.(e, index)}
-                      onCloseContextMenu={() => handleCloseContextMenu?.()}
-                      isMenuModalOpen={isMenuModalOpen}
                     />
                   );
                 })}

@@ -37,7 +37,6 @@ function AttributeModal({ isOpen, onClose, title, title2, className }) {
     useCalculateStats(equipment);
 
   useEffect(() => {
-    //callback
     const handleKeyDown = (e) => {
       if (isOpen) {
         if (e.key === "Escape") {
@@ -61,6 +60,9 @@ function AttributeModal({ isOpen, onClose, title, title2, className }) {
       tabIndex="0"
       className={isOpen ? ` ${className}` : "hidden"}
     >
+      <div className="cancel-button" onClick={onClose}>
+        X
+      </div>
       <div className="equipment list">
         <h2>{title}</h2>
         <hr />
@@ -78,7 +80,6 @@ function AttributeModal({ isOpen, onClose, title, title2, className }) {
           ))}
         </ul>
       </div>
-
       <div className="attribute list">
         <h2>{title2}</h2>
         <hr />

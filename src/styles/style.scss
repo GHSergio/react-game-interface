@@ -356,6 +356,22 @@ button {
   }
 }
 
+.cancel-button {
+  all: unset;
+  position: absolute;
+  width: 25px;
+  text-align: center;
+  font-weight: 900;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  border: 2px solid var(--text-color);
+  border-radius: 2px;
+  &:hover {
+    background-color: var(--hover-background-color);
+  }
+}
+
 //test2
 .strengthen-container {
   background-color: var(--list-background-color);

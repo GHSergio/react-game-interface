@@ -98,6 +98,10 @@ function Test() {
     setIsBackpackModalOpen(false);
     setIsAttributeModalOpen(false);
   }, []);
+
+  const handleCloseBackpackModal = () => setIsBackpackModalOpen(false);
+  const handleCloseAttributeModal = () => setIsAttributeModalOpen(false);
+
   // Explore
   const openExploreModal = useCallback(() => {
     handleCloseAllModals();
@@ -233,12 +237,14 @@ function Test() {
   // 快捷鍵 keyDown handler
   // 使用 useCallback 來優化函數
   const handleBackpackKeyDown = useCallback(() => {
-    setIsBackpackModalOpen((preState) => !preState);
-  }, []);
+    handleCloseAllModals();
+    setIsBackpackModalOpen(true);
+  }, [handleCloseAllModals]);
 
   const handleAttributeKeyDown = useCallback(() => {
-    setIsAttributeModalOpen((preState) => !preState);
-  }, []);
+    handleCloseAllModals();
+    setIsAttributeModalOpen(true);
+  }, [handleCloseAllModals]);
 
   const handleExploreKeyDown = useCallback(() => {
     handleCloseAllModals();
@@ -277,9 +283,9 @@ function Test() {
         case "M":
           handleMiningKeyDown();
           break;
-        case "ESCAPE":
-          handleCloseAllModals();
-          break;
+        // case "ESCAPE":
+        //   handleCloseAllModals();
+        //   break;
         default:
           break;
       }
@@ -290,7 +296,7 @@ function Test() {
       handleExploreKeyDown,
       handleBreakKeyDown,
       handleMiningKeyDown,
-      handleCloseAllModals,
+      // handleCloseAllModals,
     ]
   );
 
@@ -302,7 +308,10 @@ function Test() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleKeyDown, handleCloseAllModals]);
+  }, [
+    handleKeyDown,
+    //  handleCloseAllModals
+  ]);
 
   return (
     <div className="container">
@@ -346,7 +355,7 @@ function Test() {
           title="背包"
           // isOpen={modalState.isBackpackModal}
           isOpen={isBackpackModalOpen}
-          onClose={() => setIsBackpackModalOpen(false)}
+          onClose={handleCloseBackpackModal}
         />
       </div>
       <div className="attribute-container inner-container">
