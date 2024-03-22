@@ -1,0 +1,14 @@
+* {
+  font-weight: 700;
+}
+
+.fancy {
+  border: 6px solid goldenrod;
+  box-shadow: inset 0px 0px 20px 20px goldenrod;
+}
+
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  font-weight: 900;
+}/*# sourceMappingURL=practice.css.map */
