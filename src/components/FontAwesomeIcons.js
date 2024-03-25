@@ -5,6 +5,7 @@ import {
   faBolt,
   faShield,
   faXmark,
+  faWandSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 // import {} from "@fortawesome/free-brands-svg-icons";
 
@@ -24,4 +25,13 @@ const CancelIcon = ({ onClick }) => {
   </button>;
 };
 
-export { HeartIcon, EnergyIcon, ReplyPotionIcon, ShieldIcon, CancelIcon };
+const WeaponIcon = () => <FontAwesomeIcon icon={faWandSparkles} />;
+
+export {
+  HeartIcon,
+  EnergyIcon,
+  ReplyPotionIcon,
+  ShieldIcon,
+  CancelIcon,
+  WeaponIcon,
+};

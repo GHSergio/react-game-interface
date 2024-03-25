@@ -21,25 +21,6 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
     });
   };
 
-  useEffect(() => {
-    //callback
-    const handleKeyDown = (e) => {
-      if (isOpen) {
-        if (e.key === "Escape") {
-          e.preventDefault();
-          onClose();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    //清理函數 --> 卸載eventListener 避免佔用記憶體
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    }; //依賴陣列
-  }, [isOpen, onClose]);
-
   //主要設定click 扣money& 增加equipmentLevel
   const clickHandler = () => {
     if (gold - 100 < 0) {
@@ -61,6 +42,7 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
   };
 
   useEffect(() => {
+    //接收equipment 傳遞的 選擇部位 --> 設為currentEquipment
     const currentEquipment = equipment?.[equipmentType];
     if (!equipment) {
       return;
@@ -94,33 +76,36 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
 
   return (
     <>
-      <dialog
-        open={isOpen}
-        className="button-container inner-container"
-        tabIndex="0"
-      >
-        <div>
-          <span>稀有度: </span>
-          <span style={{ color: color, fontSize: "1.15rem" }}>
-            {currentEquipment?.rarity}
-          </span>
+      <div className={isOpen ? "overlay" : ""}></div>
+
+      <dialog open={isOpen} className="button-container" tabIndex="0">
+        <div className="strengthen-content">
+          <div>
+            <span>稀有度: </span>
+            <span style={{ color: color, fontSize: "1.15rem" }}>
+              {currentEquipment?.rarity}
+            </span>
+          </div>
+          <p>
+            {currentEquipment?.name}: Lv
+            {currentEquipment?.level}
+          </p>
+          {currentEquipment?.atk && <p>攻擊:{currentEquipment?.atk}</p>}
+          {currentEquipment?.def && <p>防禦:{currentEquipment?.def}</p>}
+          {currentEquipment?.resistance && (
+            <p>抗性:{currentEquipment?.resistance}</p>
+          )}
+          <div className="strengthen-button">
+            <button
+              disabled={isDisabled}
+              className={isClicked ? "scale-down" : ""}
+              onClick={clickHandler}
+            >
+              {top ? "已達上限!!" : "強化"}
+            </button>
+            <button onClick={onClose}>取消</button>
+          </div>
         </div>
-        <p>
-          {currentEquipment?.name}: Lv
-          {currentEquipment?.level}
-        </p>
-        {currentEquipment?.atk && <p>攻擊:{currentEquipment?.atk}</p>}
-        {currentEquipment?.def && <p>防禦:{currentEquipment?.def}</p>}
-        {currentEquipment?.resistance && (
-          <p>抗性:{currentEquipment?.resistance}</p>
-        )}
-        <button
-          disabled={isDisabled}
-          className={isClicked ? "scale-down" : ""}
-          onClick={clickHandler}
-        >
-          {top ? "已達上限!!" : "點我強化"}
-        </button>
       </dialog>
     </>
   );

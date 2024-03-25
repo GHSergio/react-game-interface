@@ -64,11 +64,7 @@ const ButtonModal = ({ equipmentType, isOpen, onConfirm, onClose }) => {
 
   return (
     <>
-      <dialog
-        open={isOpen}
-        className="button-container inner-container"
-        tabIndex="0"
-      >
+      <dialog open={isOpen} className="button-container" tabIndex="0">
         <div>
           <span>稀有度: </span>
           <span style={{ color: color }}>

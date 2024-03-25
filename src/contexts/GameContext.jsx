@@ -6,7 +6,6 @@ import {
   useCallback,
 } from "react";
 import Swal from "sweetalert2";
-// import { useBackpack } from "./BackpackContext";
 
 export const GameContext = createContext();
 export const useGame = () => useContext(GameContext);
@@ -89,6 +88,52 @@ export const GameProvider = ({ children }) => {
     useState(false);
   const [quantityInputValue, setQuantityInputValue] = useState(1);
 
+  const itemList = [
+    {
+      id: Date.now(),
+      name: "回復藥",
+      type: "藥水",
+      healAmount: 50,
+      quantity: 10,
+      sellPrice: 50,
+    },
+    {
+      id: Date.now(),
+      name: "簡易木棍",
+      type: "武器",
+      atk: 10,
+      rarity: "普通",
+      level: 1,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: Date.now(),
+      name: "簡易盔甲",
+      type: "盔甲",
+      def: 10,
+      rarity: "普通",
+      level: 1,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: Date.now(),
+      name: "簡易腿甲",
+      type: "腿甲",
+      def: 10,
+      rarity: "普通",
+      level: 1,
+      quantity: 1,
+      sellPrice: 50,
+    },
+  ];
+
+  const randomChoice = (arr) => {
+    const randIndex = Math.floor(Math.random() * arr.length);
+    return arr[randIndex];
+  };
+
   const addItem = () => {
     // 在items內尋找第一個value為null的item,並 return item index
     const emptyIndex = items.findIndex((item) => item === null);
@@ -97,14 +142,8 @@ export const GameProvider = ({ children }) => {
       fullAlert();
       return;
     }
-    const newItem = {
-      id: Date.now(),
-      name: "回復藥",
-      type: "藥水",
-      healAmount: 50,
-      quantity: 10,
-      sellPrice: 50,
-    };
+    // 從itemList隨機選擇一個物品
+    const newItem = randomChoice(itemList);
     setItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[emptyIndex] = newItem;

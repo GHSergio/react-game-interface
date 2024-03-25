@@ -26,43 +26,46 @@ function BackpackModal({ isOpen, onClose, onConfirm, title, className }) {
   const getRowStartIndex = (rowIndex) => rowIndex * 8;
 
   return (
-    <dialog
-      open={isOpen}
-      tabIndex="0"
-      className={isOpen ? `${className}` : "hidden"}
-    >
-      <div className="cancel-button" onClick={onClose}>
-        X
-      </div>
-      <h2>{title}</h2> <button onClick={handleAddItemClick}>添加物品</button>
-      <div className="grid-container">
-        <hr />
-        {/* 根據items Array長度 來生成 */}
-        {Array(Math.ceil(items.length / 8))
-          .fill()
-          .map((_, rowIndex) => (
-            <div key={rowIndex} className="grid-row">
-              {/* 每行生成 8 列 */}
-              {Array(8)
-                .fill()
-                .map((_, colIndex) => {
-                  const index = getRowStartIndex(rowIndex) + colIndex;
-                  if (index < items.length) {
-                    return (
-                      <ItemBlock
-                        key={index}
-                        index={index}
-                        isActive={activeItemIndex === index}
-                      />
-                    );
-                  } else {
-                    return <div key={index}></div>;
-                  }
-                })}
-            </div>
-          ))}
-      </div>
-    </dialog>
+    <>
+      <div className={isOpen ? "overlay" : ""}></div>
+      <dialog
+        open={isOpen}
+        tabIndex="0"
+        className={isOpen ? `${className}` : "hidden"}
+      >
+        <div className="cancel-button" onClick={onClose}>
+          X
+        </div>
+        <h2>{title}</h2> <button onClick={handleAddItemClick}>添加物品</button>
+        <div className="grid-container">
+          <hr />
+          {/* 根據items Array長度 來生成 */}
+          {Array(Math.ceil(items.length / 8))
+            .fill()
+            .map((_, rowIndex) => (
+              <div key={rowIndex} className="grid-row">
+                {/* 每行生成 8 列 */}
+                {Array(8)
+                  .fill()
+                  .map((_, colIndex) => {
+                    const index = getRowStartIndex(rowIndex) + colIndex;
+                    if (index < items.length) {
+                      return (
+                        <ItemBlock
+                          key={index}
+                          index={index}
+                          isActive={activeItemIndex === index}
+                        />
+                      );
+                    } else {
+                      return <div key={index}></div>;
+                    }
+                  })}
+              </div>
+            ))}
+        </div>
+      </dialog>
+    </>
   );
 }
 

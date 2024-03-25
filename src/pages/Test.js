@@ -349,99 +349,99 @@ function Test() {
         </button>
       </div>
       {/* Modal */}
-      <div className="backpack-container">
-        <BackpackModal
-          className="backpack item-container"
-          title="背包"
-          // isOpen={modalState.isBackpackModal}
-          isOpen={isBackpackModalOpen}
-          onClose={handleCloseBackpackModal}
-        />
-      </div>
-      <div className="attribute-container inner-container">
-        <AttributeModal
-          className="attribute-wrapper"
-          title="裝備"
-          title2="屬性"
-          isOpen={isAttributeModalOpen}
-          onClose={handleCloseAttributeModal}
-        />
-      </div>
-      <div className="explore-container inner-container">
-        <ConfirmationModal
-          className="exploreModal"
-          title="是否進行探索?"
-          message="消耗 20能量 & 50體力"
-          message2="獲取 100經驗值 & $500金幣"
-          confirmMessage="前往探索"
-          cancelMessage="再準備一下"
-          isOpen={modalState.isExploreModalOpen}
-          onClose={closeExploreModal}
-          onConfirm={handleExploreConfirm}
-        />
-
-        <ConfirmationModal
-          className="emptyModal"
-          title="能量不足 是否補充能量?"
-          message="消耗 $1000"
-          message2="補充 50能量 & 50體力"
-          confirmMessage="補充能量"
-          cancelMessage="讓我想想"
-          isOpen={modalState.isEnergyEmptyModalOpen}
-          onClose={closeEnergyEmptyModal}
-          onConfirm={handleEmptyConfirm}
-        />
-      </div>
-      <div className="break-container inner-container">
-        <ConfirmationModal
-          className="breakModal"
-          title="確定要休息?"
-          message="消耗 $2000金幣"
-          message2="完全回復 能量 & 體力"
-          confirmMessage="我確定"
-          cancelMessage="再撐一下"
-          isOpen={modalState.isBreakModalOpen}
-          onClose={closeBreakModal}
-          onConfirm={handleBreakConfirm}
-        />
-
-        <ConfirmationModal
-          className="overflowConfirmModal modal"
-          title="現在休息 能量將會溢出"
-          message="仍要休息嗎?"
-          confirmMessage="堅持休息"
-          cancelMessage="那先不要"
-          isOpen={modalState.isOverflowConfirmModalOpen}
-          onClose={closeOverflowModal}
-          onConfirm={handleOverflowConfirm}
-        />
-      </div>
-      <div className="mining-container inner-container">
-        <ConfirmationModal
-          className="MiningModal"
-          title="是否進行採礦?"
-          message="消耗 20能量"
-          message2="獲取 $1000金幣"
-          confirmMessage="前往採礦"
-          cancelMessage="再準備一下"
-          isOpen={modalState.isMiningModalOpen}
-          onClose={closeMiningModal}
-          onConfirm={handleMiningConfirm}
-        />
-
-        <ConfirmationModal
-          className="emptyModal"
-          title="能量不足 是否補充能量?"
-          message="消耗 $1000"
-          message2="補充 50能量"
-          confirmMessage="補充能量"
-          cancelMessage="讓我想想"
-          isOpen={modalState.isEnergyEmptyModalOpen}
-          onClose={closeEnergyEmptyModal}
-          onConfirm={handleEmptyConfirm}
-        />
-      </div>
       <div className="content-container">
+        <div className="backpack-container">
+          <BackpackModal
+            className="backpack item-container"
+            title="背包"
+            isOpen={isBackpackModalOpen}
+            onClose={handleCloseBackpackModal}
+          />
+        </div>
+        <div className="attribute-container">
+          <AttributeModal
+            // className="attribute-wrapper"
+            title="裝備"
+            title2="屬性"
+            isOpen={isAttributeModalOpen}
+            onClose={handleCloseAttributeModal}
+          />
+        </div>
+        <div className="explore-container">
+          <ConfirmationModal
+            className="exploreModal"
+            title="是否進行探索?"
+            message="消耗 20能量 & 50體力"
+            message2="獲取 100經驗值 & $500金幣"
+            confirmMessage="前往探索"
+            cancelMessage="再準備一下"
+            isOpen={modalState.isExploreModalOpen}
+            onClose={closeExploreModal}
+            onConfirm={handleExploreConfirm}
+          />
+
+          <ConfirmationModal
+            className="emptyModal"
+            title="能量不足 是否補充能量?"
+            message="消耗 $1000"
+            message2="補充 50能量 & 50體力"
+            confirmMessage="補充能量"
+            cancelMessage="讓我想想"
+            isOpen={modalState.isEnergyEmptyModalOpen}
+            onClose={closeEnergyEmptyModal}
+            onConfirm={handleEmptyConfirm}
+          />
+        </div>
+        <div className="break-container">
+          <ConfirmationModal
+            className="breakModal"
+            title="確定要休息?"
+            message="消耗 $2000金幣"
+            message2="完全回復 能量 & 體力"
+            confirmMessage="我確定"
+            cancelMessage="再撐一下"
+            isOpen={modalState.isBreakModalOpen}
+            onClose={closeBreakModal}
+            onConfirm={handleBreakConfirm}
+          />
+
+          <ConfirmationModal
+            className="overflowConfirmModal modal"
+            title="現在休息 能量將會溢出"
+            message="仍要休息嗎?"
+            confirmMessage="堅持休息"
+            cancelMessage="那先不要"
+            isOpen={modalState.isOverflowConfirmModalOpen}
+            onClose={closeOverflowModal}
+            onConfirm={handleOverflowConfirm}
+          />
+        </div>
+        <div className="mining-container">
+          <ConfirmationModal
+            className="MiningModal"
+            title="是否進行採礦?"
+            message="消耗 20能量"
+            message2="獲取 $1000金幣"
+            confirmMessage="前往採礦"
+            cancelMessage="再準備一下"
+            isOpen={modalState.isMiningModalOpen}
+            onClose={closeMiningModal}
+            onConfirm={handleMiningConfirm}
+          />
+
+          <ConfirmationModal
+            className="emptyModal"
+            title="能量不足 是否補充能量?"
+            message="消耗 $1000"
+            message2="補充 50能量"
+            confirmMessage="補充能量"
+            cancelMessage="讓我想想"
+            isOpen={modalState.isEnergyEmptyModalOpen}
+            onClose={closeEnergyEmptyModal}
+            onConfirm={handleEmptyConfirm}
+          />
+        </div>
+        {/* <div className="content-container"> */}
         <div className="state-container">
           <h2>Lv: {level}</h2>
           <h2>
@@ -486,6 +486,7 @@ function Test() {
         </div>
       </div>
     </div>
+    // </div>
   );
 }
 

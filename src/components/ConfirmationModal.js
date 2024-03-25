@@ -18,6 +18,7 @@ function ConfirmationModal({
       if (isOpen) {
         if (e.key === "Enter") {
           e.preventDefault();
+          e.stopPropagation();
           onConfirm();
         } else if (e.key === "Escape") {
           e.preventDefault();
@@ -35,19 +36,22 @@ function ConfirmationModal({
   }, [isOpen, onConfirm, onClose]);
 
   return (
-    <dialog
-      open={isOpen}
-      className={isOpen ? `modal ${className}` : "hidden"}
-      tabIndex="0"
-    >
-      <h2>{title}</h2>
-      <p>{message} </p>
-      <p>{message2} </p>
-      <div className="modal-button-container">
-        <button onClick={onConfirm}>{confirmMessage}</button>
-        <button onClick={onClose}>{cancelMessage}</button>
-      </div>
-    </dialog>
+    <>
+      <div className={isOpen ? "overlay" : ""}></div>
+      <dialog
+        open={isOpen}
+        className={isOpen ? `modal ${className}` : "hidden"}
+        tabIndex="0"
+      >
+        <h2>{title}</h2>
+        <p>{message} </p>
+        <p>{message2} </p>
+        <div className="modal-button-container">
+          <button onClick={onConfirm}>{confirmMessage}</button>
+          <button onClick={onClose}>{cancelMessage}</button>
+        </div>
+      </dialog>
+    </>
   );
 }
 
