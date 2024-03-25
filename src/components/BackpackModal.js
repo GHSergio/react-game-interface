@@ -47,13 +47,17 @@ function BackpackModal({ isOpen, onClose, onConfirm, title, className }) {
                 .fill()
                 .map((_, colIndex) => {
                   const index = getRowStartIndex(rowIndex) + colIndex;
-                  return (
-                    <ItemBlock
-                      key={index}
-                      index={index}
-                      isActive={activeItemIndex === index}
-                    />
-                  );
+                  if (index < items.length) {
+                    return (
+                      <ItemBlock
+                        key={index}
+                        index={index}
+                        isActive={activeItemIndex === index}
+                      />
+                    );
+                  } else {
+                    return <div key={index}></div>;
+                  }
                 })}
             </div>
           ))}

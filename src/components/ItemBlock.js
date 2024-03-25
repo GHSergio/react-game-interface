@@ -10,14 +10,14 @@ const ItemBlock = ({ index, isActive }) => {
   // 依傳入的 index 取得items內相應位置的item訊息
   const itemInSlot = items[index];
 
-  // console.log("Index:", index, "Item:", itemInSlot);
+  console.log("Index:", index, "Item:", itemInSlot);
 
   return (
     <div
       className="grid-item"
       onContextMenu={(e) => handleRightClick(e, index)}
     >
-      {itemInSlot && itemInSlot.quantity > 0 && itemInSlot.type === "藥水" && (
+      {itemInSlot && itemInSlot.quantity >= 0 && itemInSlot.type === "藥水" && (
         <ReplyPotionIcon />
       )}
       {itemInSlot && itemInSlot.quantity > 1 && (

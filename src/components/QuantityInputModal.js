@@ -12,6 +12,7 @@ const QuantityInputModal = ({
 }) => {
   const { items, quantityInputValue, setQuantityInputValue } = useGame();
   const currentItem = items[itemIndex];
+  // console.log(currentItem);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -26,7 +27,7 @@ const QuantityInputModal = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onConfirm, onClose, quantityInputValue]);
+  }, [isOpen, onConfirm, onClose]);
 
   // console.log(currentItem.quantity);
 
@@ -46,9 +47,7 @@ const QuantityInputModal = ({
         onChange={(e) => setQuantityInputValue(parseInt(e.target.value))}
         value={quantityInputValue}
         min="1"
-        // max={currentItem ? currentItem.quantity : ""}
-        max={currentItem ? String(currentItem.quantity) : ""}
-        // max={currentItem ? currentItem.quantity : Number.MAX_SAFE_INTEGER}
+        max={currentItem ? currentItem.quantity : ""}
       />
       <div className="modal-button-container">
         <button onClick={() => onConfirm(quantityInputValue)}>

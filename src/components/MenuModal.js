@@ -29,15 +29,14 @@ const MenuModal = ({ index, isOpen, onClose }) => {
   } = useGame();
 
   // console.log(items[index]);
-  const item = items[index];
+  const item = items[activeItemIndex];
 
   const handleItemClick = (action) => {
-    const item = items[activeItemIndex];
-    if (!item) return; // 确保物品存在
-    if (action === "use" && item.quantity > 0) {
+    if (!item && item.quantity === 0) return; // 确保物品存在
+    if (action === "use") {
       setCurrentAction("use");
       setIsQuantityInputModalOpen(true);
-    } else if (action === "sell" && item.quantity > 0) {
+    } else if (action === "sell") {
       setCurrentAction("sell");
       setIsQuantityInputModalOpen(true);
     } else if (action === "cancel") {
@@ -51,13 +50,15 @@ const MenuModal = ({ index, isOpen, onClose }) => {
     setIsQuantityInputModalOpen(false);
     setIsMenuModalOpen(false);
     if (currentAction === "use") {
-      // 执行使用物品操作
       const item = items[activeItemIndex];
-      if (item && quantity > 0) {
-        usedItem(item.id, quantity);
+      if (item && item.quantity > 0) {
+        usedItem(item, quantity);
       }
     } else if (currentAction === "sell") {
-      sellItem(item, quantity);
+      const item = items[activeItemIndex];
+      if (item && quantity > 0) {
+        sellItem(item, quantity);
+      }
     }
   };
 

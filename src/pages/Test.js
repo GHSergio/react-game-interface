@@ -364,7 +364,7 @@ function Test() {
           title="裝備"
           title2="屬性"
           isOpen={isAttributeModalOpen}
-          onClose={() => setIsAttributeModalOpen(false)}
+          onClose={handleCloseAttributeModal}
         />
       </div>
       <div className="explore-container inner-container">

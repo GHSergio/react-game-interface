@@ -1,4 +1,10 @@
-import { useState, createContext, useContext } from "react";
+import {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
 import Swal from "sweetalert2";
 // import { useBackpack } from "./BackpackContext";
 
@@ -75,6 +81,7 @@ export const GameProvider = ({ children }) => {
     },
   });
   const [items, setItems] = useState(Array(32).fill(null));
+
   //backpack
   const [activeItemIndex, setActiveItemIndex] = useState(null);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
@@ -113,55 +120,55 @@ export const GameProvider = ({ children }) => {
     });
   };
 
-  // 删除物品
-  const removeItem = (itemId) => {
-    setItems((prevItems) =>
-      prevItems.map((item) => (item && item.id === itemId ? null : item))
-    );
+  // 更新物品數量
+  const updateItemAndQuantity = (item, amount) => {
+    setItems((prevItems) => {
+      const updatedItems = prevItems.map((prevItem) =>
+        prevItem && prevItem.id === item.id
+          ? { ...prevItem, quantity: prevItem.quantity - amount }
+          : prevItem
+      );
+      return updatedItems;
+    });
   };
 
   // 使用物品
-  const usedItem = (itemId, amount) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item && item.id === itemId
-          ? { ...item, quantity: item.quantity - amount }
-          : item
-      )
-    );
-    const item = items.find((item) => item && item.id === itemId);
-    if (item && item.healAmount) {
+  const usedItem = (item, amount) => {
+    updateItemAndQuantity(item, amount);
+    if (item.healAmount) {
       increaseHp(item.healAmount * amount);
-    }
-    // 如果物品数量为 0，则删除物品
-    if (item.quantity === 0) {
-      removeItem(item.id);
     }
   };
 
   // 出售物品
   const sellItem = (item, amount) => {
-    setItems((prevItems) =>
-      prevItems.map((prevItem) =>
-        prevItem && prevItem.id === item.id
-          ? { ...prevItem, quantity: prevItem.quantity - amount }
-          : prevItem
-      )
-    );
-    // increaseGold(item.sellPrice);
+    updateItemAndQuantity(item, amount);
     increaseGold(item.sellPrice * amount);
-    // 如果物品数量为 0，则删除物品
-    if (item.quantity === 0) {
-      removeItem(item.id);
-    }
   };
 
+  // 删除物品;
+  const removeItem = useCallback((itemId) => {
+    setItems((prevItems) =>
+      //將ItemId該項 --> 設為null , 其餘維持原item
+      prevItems.map((item) => (item && item.id === itemId ? null : item))
+    );
+  }, []);
+
+  useEffect(() => {
+    items.forEach((item) => {
+      if (item && item.quantity === 0) {
+        removeItem(item.id);
+        // console.log("items.length is: ", items.length);
+      }
+    });
+  }, [items, removeItem]); // 當 items變動,removeItem 時觸發
+
   // 丢弃物品
-  const discardItem = (itemId) => {
+  const discardItem = (itemId, amount) => {
     setItems((prevItems) =>
       prevItems.map((item) =>
         item && item.id === itemId
-          ? { ...item, quantity: item.quantity - 1 }
+          ? { ...item, quantity: item.quantity - amount }
           : item
       )
     );
@@ -337,6 +344,7 @@ export const GameProvider = ({ children }) => {
         addItem,
         usedItem,
         sellItem,
+        removeItem,
         discardItem,
 
         isMenuModalOpen,
