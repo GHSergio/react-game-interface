@@ -1,40 +1,70 @@
 import React, { useEffect } from "react";
 import { useGame } from "../contexts/GameContext";
+import AttributeItem from "./AttributeItem";
 
-function AttributeModal({ isOpen, onClose, title, title2, className }) {
-  const { level, equipment } = useGame();
+function AttributeModal({ isOpen, onClose, title, title2 }) {
+  const { equipment, currentStats } = useGame();
+  const {
+    baseStats: {
+      attack: baseAttack,
+      defense: baseDefense,
+      resistance: baseResistance,
+    },
+    equippedStats: {
+      attack: equippedAttack,
+      defense: equippedDefense,
+      resistance: equippedResistance,
+    },
+  } = currentStats;
 
-  //升級能力累加邏輯
-  function useCalculateStats(equipmentLevel) {
-    const baseAttack = level * 10;
-    const baseDefense = level * 10;
-    const baseResistance = level * 5;
-    // 迭代數組中的每個項目，
-    //將atk每個項目的值加到累加器 ( acc) 中。
-    //如果某項沒有屬性atk，則使用0 ( item.atk || 0)。
-    //累加器的初始值為0。
-    const totalAttack =
-      baseAttack +
-      Object.values(equipmentLevel).reduce(
-        (acc, item) => acc + (item.atk || 0),
-        0
-      );
-    const totalDefense =
-      baseDefense +
-      Object.values(equipmentLevel).reduce(
-        (acc, item) => acc + (item.def || 0),
-        0
-      );
-    const totalResistance =
-      baseResistance +
-      Object.values(equipmentLevel).reduce(
-        (acc, item) => acc + (item.resistance || 0),
-        0
-      );
-    return { totalAttack, totalDefense, totalResistance };
-  }
-  const { totalAttack, totalDefense, totalResistance } =
-    useCalculateStats(equipment);
+  const totalAttack = baseAttack + equippedAttack;
+  const totalDefense = baseDefense + equippedDefense;
+  const totalResistance = baseResistance + equippedResistance;
+
+  const attributes = [
+    {
+      name: "攻擊力",
+      total: totalAttack,
+      base: baseAttack,
+      equipped: equippedAttack,
+    },
+    {
+      name: "防禦力",
+      total: totalDefense,
+      base: baseDefense,
+      equipped: equippedDefense,
+    },
+    {
+      name: "火抗性",
+      total: totalResistance,
+      base: baseResistance,
+      equipped: equippedResistance,
+    },
+    {
+      name: "水抗性",
+      total: totalResistance,
+      base: baseResistance,
+      equipped: equippedResistance,
+    },
+    {
+      name: "冰抗性",
+      total: totalResistance,
+      base: baseResistance,
+      equipped: equippedResistance,
+    },
+    {
+      name: "雷抗性",
+      total: totalResistance,
+      base: baseResistance,
+      equipped: equippedResistance,
+    },
+    {
+      name: "毒抗性",
+      total: totalResistance,
+      base: baseResistance,
+      equipped: equippedResistance,
+    },
+  ];
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -69,36 +99,65 @@ function AttributeModal({ isOpen, onClose, title, title2, className }) {
           <h2>{title}</h2>
           <hr />
           <ul>
-            {Object.entries(equipment).map(([type, item], index, array) => (
-              <React.Fragment key={type}>
-                <li key={type}>
-                  {item.type} Lv: {item.level}
-                  <p>
-                    [{item.rarity}] {item.name}
-                  </p>
-                </li>
-                {index < array.length - 1 && <hr />}
-              </React.Fragment>
-            ))}
+            {equipment &&
+              Object.entries(equipment).map(
+                ([part, { item, strengthenLevel }], index, array) => (
+                  <React.Fragment key={part}>
+                    <li>
+                      <span>
+                        {part === "arms"
+                          ? "武器"
+                          : part === "helmet"
+                          ? "頭盔"
+                          : part === "armor"
+                          ? "鎧甲"
+                          : part === "legArmor"
+                          ? "護腿"
+                          : part === "gloves"
+                          ? "護手"
+                          : part === "boots"
+                          ? "靴子"
+                          : part === "amulet"
+                          ? "護符"
+                          : part === "ring"
+                          ? "戒指"
+                          : ""}
+                      </span>
+                      <span>Lv: {strengthenLevel && strengthenLevel}</span>
+                      {item ? (
+                        <>
+                          <p>
+                            {item.rarity && `[${item.rarity}]`} {item.name}
+                          </p>
+                        </>
+                      ) : (
+                        <p> 尚未裝備 </p>
+                      )}
+                    </li>
+                    {index < array.length && <hr />}
+                  </React.Fragment>
+                )
+              )}
           </ul>
         </div>
+
         <div className="attribute list">
           <h2>{title2}</h2>
           <hr />
           <ul>
-            <li>攻擊力: {totalAttack}</li>
-            <hr />
-            <li>防禦力: {totalDefense}</li>
-            <hr />
-            <li>火抗性: {totalResistance}</li>
-            <hr />
-            <li>水抗性: {totalResistance}</li> <hr />
-            <li>冰抗性: {totalResistance}</li> <hr />
-            <li>雷抗性: {totalResistance}</li> <hr />
-            <li>風抗性: {totalResistance}</li>
-            <hr />
-            <li>毒抗性: {totalResistance}</li>
-            <hr />
+            <ul>
+              {attributes.map((attribute, index) => (
+                <React.Fragment key={index}>
+                  <AttributeItem
+                    name={attribute.name}
+                    total={attribute.total}
+                    base={attribute.base}
+                    equipped={attribute.equipped}
+                  />
+                  {index < attributes.length && <hr />}
+                </React.Fragment>
+              ))}
+            </ul>
           </ul>
         </div>
       </dialog>

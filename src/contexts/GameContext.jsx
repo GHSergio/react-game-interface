@@ -6,6 +6,7 @@ import {
   useCallback,
 } from "react";
 import Swal from "sweetalert2";
+import { v4 as uuidv4 } from "uuid";
 
 export const GameContext = createContext();
 export const useGame = () => useContext(GameContext);
@@ -20,64 +21,19 @@ export const GameProvider = ({ children }) => {
   const [maxHp, setMaxHp] = useState(100);
   const [energy, setEnergy] = useState(100);
   const [maxEnergy, setMaxEnergy] = useState(100);
+
   const [equipment, setEquipment] = useState({
-    sword: {
-      type: "武器",
-      name: "黑龍戰斧",
-      rarity: "普通",
-      level: 1,
-      atk: 990,
+    arms: {
+      strengthenLevel: 0,
+      item: null,
     },
-    shield: {
-      type: "盾牌",
-      name: "黑龍鋼盾",
-      rarity: "普通",
-      level: 1,
-      def: 92,
-    },
-    armor: {
-      type: "盔甲",
-      name: "黑龍玄甲",
-      rarity: "普通",
-      level: 1,
-      def: 92,
-    },
-    legArmor: {
-      type: "腿甲",
-      name: "黑龍護腿",
-      rarity: "普通",
-      level: 1,
-      def: 92,
-    },
-    armGuard: {
-      type: "手甲",
-      name: "黑龍護手",
-      rarity: "普通",
-      level: 1,
-      def: 92,
-    },
-    belt: { type: "腰帶", name: "黑龍腰帶", rarity: "普通", level: 1, def: 92 },
-    cloak: {
-      type: "披風",
-      name: "暗影斗篷",
-      rarity: "普通",
-      level: 1,
-      def: 92,
-    },
-    ring: {
-      type: "戒指",
-      name: "黑龍骨戒",
-      rarity: "普通",
-      level: 1,
-      resistance: 5,
-    },
-    necklace: {
-      type: "項鍊",
-      name: "龍牙項鍊",
-      rarity: "普通",
-      level: 1,
-      resistance: 5,
-    },
+    helmet: { strengthenLevel: 0, item: null },
+    armor: { strengthenLevel: 0, item: null },
+    legArmor: { strengthenLevel: 0, item: null },
+    gloves: { strengthenLevel: 0, item: null },
+    boots: { strengthenLevel: 0, item: null },
+    amulet: { strengthenLevel: 0, item: null },
+    ring: { strengthenLevel: 0, item: null },
   });
   const [items, setItems] = useState(Array(32).fill(null));
 
@@ -87,48 +43,128 @@ export const GameProvider = ({ children }) => {
   const [isQuantityInputModalOpen, setIsQuantityInputModalOpen] =
     useState(false);
   const [quantityInputValue, setQuantityInputValue] = useState(1);
+  const [currentStats, setCurrentStats] = useState({
+    baseStats: {
+      attack: 0,
+      defense: 0,
+      resistance: 0,
+    },
+    equippedStats: {
+      attack: 0,
+      defense: 0,
+      resistance: 0,
+    },
+  });
 
   const itemList = [
     {
-      id: Date.now(),
+      id: uuidv4(),
       name: "回復藥",
+      class: "物品",
       type: "藥水",
       healAmount: 50,
       quantity: 10,
       sellPrice: 50,
     },
     {
-      id: Date.now(),
-      name: "簡易木棍",
+      id: uuidv4(),
+      name: "戰利品",
+      class: "物品",
+      type: "戰利品",
+      quantity: 10,
+      sellPrice: 100,
+    },
+    {
+      id: uuidv4(),
+      name: "黑龍戰斧",
+      class: "裝備",
       type: "武器",
-      atk: 10,
       rarity: "普通",
       level: 1,
+      atk: 990,
       quantity: 1,
       sellPrice: 50,
     },
     {
-      id: Date.now(),
-      name: "簡易盔甲",
-      type: "盔甲",
-      def: 10,
+      id: uuidv4(),
+      name: "黑龍骨盔",
+      class: "裝備",
+      type: "頭盔",
       rarity: "普通",
       level: 1,
+      def: 92,
       quantity: 1,
       sellPrice: 50,
     },
     {
-      id: Date.now(),
-      name: "簡易腿甲",
-      type: "腿甲",
-      def: 10,
+      id: uuidv4(),
+      name: "黑龍鱗甲",
+      class: "裝備",
+      type: "鎧甲",
       rarity: "普通",
       level: 1,
+      def: 92,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: uuidv4(),
+      name: "黑龍腿甲",
+      class: "裝備",
+      type: "護腿",
+      rarity: "普通",
+      level: 1,
+      def: 92,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: uuidv4(),
+      name: "黑龍手甲",
+      class: "裝備",
+      type: "護手",
+      rarity: "普通",
+      level: 1,
+      def: 92,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: uuidv4(),
+      name: "黑龍鱗靴",
+      class: "裝備",
+      type: "靴子",
+      rarity: "普通",
+      level: 1,
+      def: 92,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: uuidv4(),
+      name: "黑龍骨戒",
+      class: "裝備",
+      type: "戒指",
+      rarity: "普通",
+      level: 1,
+      resistance: 5,
+      quantity: 1,
+      sellPrice: 50,
+    },
+    {
+      id: uuidv4(),
+      name: "龍牙護符",
+      class: "裝備",
+      type: "護符",
+      rarity: "普通",
+      level: 1,
+      resistance: 5,
       quantity: 1,
       sellPrice: 50,
     },
   ];
 
+  //隨機獲取
   const randomChoice = (arr) => {
     const randIndex = Math.floor(Math.random() * arr.length);
     return arr[randIndex];
@@ -144,18 +180,26 @@ export const GameProvider = ({ children }) => {
     }
     // 從itemList隨機選擇一個物品
     const newItem = randomChoice(itemList);
+    addItemAlert(newItem);
     setItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[emptyIndex] = newItem;
       return updatedItems;
     });
   };
+
   //Alert
   const fullAlert = () => {
     Swal.fire({
       title: "道具欄已滿",
       showConfirmButton: false,
       timer: 1000,
+    });
+  };
+
+  const addItemAlert = (item) => {
+    Swal.fire({
+      title: `探索 獲得 ${item.name} * ${item.quantity}`,
     });
   };
 
@@ -171,7 +215,7 @@ export const GameProvider = ({ children }) => {
     });
   };
 
-  // 使用物品
+  // 使用物品 更新item數量 執行物品效果
   const usedItem = (item, amount) => {
     updateItemAndQuantity(item, amount);
     if (item.healAmount) {
@@ -179,28 +223,20 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // 出售物品
+  // 出售物品 更新item數量 增加金幣
   const sellItem = (item, amount) => {
     updateItemAndQuantity(item, amount);
     increaseGold(item.sellPrice * amount);
   };
 
-  // 删除物品;
+  // 删除物品 將該item改為null 而不是filter
+  // 避免itemBlock因為item被移除 背包欄位消失
   const removeItem = useCallback((itemId) => {
     setItems((prevItems) =>
       //將ItemId該項 --> 設為null , 其餘維持原item
       prevItems.map((item) => (item && item.id === itemId ? null : item))
     );
   }, []);
-
-  useEffect(() => {
-    items.forEach((item) => {
-      if (item && item.quantity === 0) {
-        removeItem(item.id);
-        // console.log("items.length is: ", items.length);
-      }
-    });
-  }, [items, removeItem]); // 當 items變動,removeItem 時觸發
 
   // 丢弃物品
   const discardItem = (itemId, amount) => {
@@ -290,41 +326,14 @@ export const GameProvider = ({ children }) => {
     setHp(newHp);
   };
 
-  //增加裝備等級
-  const increaseEquipmentLevel = (equipmentType) => {
-    setEquipment((prevEquipment) => {
-      if (!prevEquipment[equipmentType]) {
-        console.error(`Equipment type ${equipmentType} not found.`);
-        return prevEquipment;
-      }
-
-      const updatedEquipment = {
-        ...prevEquipment[equipmentType],
-        level: prevEquipment[equipmentType].level + 1,
-      };
-
-      if (updatedEquipment.level === 5) {
-        updatedEquipment.rarity = "精良";
-      } else if (updatedEquipment.level === 10) {
-        updatedEquipment.rarity = "極品";
-      } else if (updatedEquipment.level === 15) {
-        updatedEquipment.rarity = "傳說";
-      }
-
-      if (updatedEquipment.atk) updatedEquipment.atk += 10;
-      if (updatedEquipment.def) updatedEquipment.def += 2;
-      if (updatedEquipment.resistance) updatedEquipment.resistance += 5;
-
-      return {
-        ...prevEquipment,
-        [equipmentType]: updatedEquipment,
-      };
-    });
-  };
-
   //添加物品
   const handleAddItemClick = () => {
     addItem();
+  };
+
+  //關閉MenuModal
+  const handleCloseContextMenu = () => {
+    setIsMenuModalOpen(false);
   };
 
   //右鍵開啟選單,設activeIndex
@@ -334,11 +343,7 @@ export const GameProvider = ({ children }) => {
     setActiveItemIndex(index);
   };
 
-  //關閉MenuModal
-  const handleCloseContextMenu = () => {
-    setIsMenuModalOpen(false);
-  };
-
+  //MenuModal action 影響 QuantityInputModalOpen
   const handleItemClick = (action) => {
     const item = items[activeItemIndex];
     if (!item) return; // 确保物品存在
@@ -352,6 +357,159 @@ export const GameProvider = ({ children }) => {
     }
     handleCloseContextMenu();
   };
+
+  //裝備 根據item.type去更新匹配的位置
+  const equipItem = (item) => {
+    switch (item.type) {
+      case "武器":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          arms: { ...prevEquipment.arms, item: item },
+        }));
+        break;
+      case "頭盔":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          helmet: { ...prevEquipment.helmet, item: item },
+        }));
+        break;
+      case "鎧甲":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          armor: { ...prevEquipment.armor, item: item },
+        }));
+        break;
+      case "護腿":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          legArmor: { ...prevEquipment.legArmor, item: item },
+        }));
+        break;
+      case "護手":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          gloves: { ...prevEquipment.gloves, item: item },
+        }));
+        break;
+      case "靴子":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          boots: { ...prevEquipment.boots, item: item },
+        }));
+        break;
+      case "護符":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          amulet: { ...prevEquipment.amulet, item: item },
+        }));
+        break;
+      case "戒指":
+        setEquipment((prevEquipment) => ({
+          ...prevEquipment,
+          ring: { ...prevEquipment.ring, item: item },
+        }));
+        break;
+      default:
+        console.error("Unknown item type:", item.type);
+    }
+  };
+
+  // 裝備升级邏輯
+  const increaseEquipmentLevel = (equipmentPart) => {
+    setEquipment((prevEquipment) => {
+      const equipment = prevEquipment[equipmentPart];
+      if (!equipment) {
+        console.error(`Equipment type ${equipmentPart} not found.`);
+        return prevEquipment;
+      }
+
+      const { strengthenLevel } = equipment;
+      const updatedStrengthenLevel = strengthenLevel + 1;
+      const { atk, def, resistance } = equipment.item;
+      let updatedRarity = equipment.item.rarity;
+
+      if (updatedStrengthenLevel === 5) updatedRarity = "精良";
+      else if (updatedStrengthenLevel === 10) updatedRarity = "極品";
+      else if (updatedStrengthenLevel === 15) updatedRarity = "傳說";
+
+      const updatedEquipment = {
+        ...equipment,
+        strengthenLevel: updatedStrengthenLevel,
+        item: {
+          ...equipment.item,
+          rarity: updatedRarity,
+          atk: atk ? atk + 10 : undefined,
+          def: def ? def + 2 : undefined,
+          resistance: resistance ? resistance + 5 : undefined,
+        },
+      };
+
+      // 使用 setEquipment 更新裝備狀態
+      return {
+        ...prevEquipment,
+        [equipmentPart]: updatedEquipment,
+      };
+    });
+  };
+
+  //當item數量===0, removeItem
+  useEffect(() => {
+    items.forEach((item) => {
+      if (item && item.quantity === 0) {
+        removeItem(item.id);
+        // console.log("items.length is: ", items.length);
+      }
+    });
+  }, [items, removeItem]); // 當 items變動,removeItem 時觸發
+
+  // 基礎能力 + 裝備能力
+  // 使用useCallback來包裝CalculateStats，避免在每次渲染時重新創建函數
+  const calculateTotalStats = useCallback(() => {
+    // 基礎能力值
+    const baseAttack = level * 10;
+    const baseDefense = level * 10;
+    const baseResistance = level * 5;
+
+    // 裝備加成的能力值
+    let equippedAttack = 0;
+    let equippedDefense = 0;
+    let equippedResistance = 0;
+    for (const part of Object.values(equipment)) {
+      if (part && part.item) {
+        equippedAttack += part.item.atk || 0;
+        equippedDefense += part.item.def || 0;
+        equippedResistance += part.item.resistance || 0;
+      }
+    }
+
+    //更新state
+    setCurrentStats({
+      baseStats: {
+        attack: baseAttack,
+        defense: baseDefense,
+        resistance: baseResistance,
+      },
+      equippedStats: {
+        attack: equippedAttack,
+        defense: equippedDefense,
+        resistance: equippedResistance,
+      },
+    });
+
+    return {
+      baseAttack,
+      baseDefense,
+      baseResistance,
+      equippedAttack,
+      equippedDefense,
+      equippedResistance,
+    };
+  }, [level, equipment]);
+
+  //當level,equipment有變動,就更新能力值
+  useEffect(() => {
+    calculateTotalStats();
+  }, [level, equipment, calculateTotalStats]);
 
   return (
     <GameContext.Provider
@@ -382,6 +540,7 @@ export const GameProvider = ({ children }) => {
         setItems,
         addItem,
         usedItem,
+        equipItem,
         sellItem,
         removeItem,
         discardItem,
@@ -398,6 +557,10 @@ export const GameProvider = ({ children }) => {
         handleRightClick,
         handleCloseContextMenu,
         handleItemClick,
+
+        currentStats,
+        setCurrentStats,
+        calculateTotalStats,
       }}
     >
       {children}

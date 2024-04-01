@@ -7,7 +7,7 @@ import "./styles/style.scss";
 const Layout = () => {
   const { mode, setMode } = useMode();
   const [activeIndex, setActiveIndex] = useState(null);
-
+  //toggleMode
   const toggleMode = () => {
     setMode(!mode);
     document.body.setAttribute("data-theme", !mode ? "dark" : "light");
@@ -39,18 +39,13 @@ const Layout = () => {
           >
             <Link to="/Test2">鐵匠舖</Link>
           </li>
-          {/* <li
-            className={activeIndex === 3 ? "active-li" : ""}
-            onClick={() => handleItemClick(3)}
-          >
-            <Link to="/Test3">礦坑</Link>
-          </li> */}
           <li
             className={activeIndex === 4 ? "active-li" : ""}
             onClick={() => handleItemClick(4)}
           >
             <Link to="/About">關於這個網站</Link>
           </li>
+          {/* button 添加toggleMode event */}
           <button
             style={{
               marginTop: "4px",

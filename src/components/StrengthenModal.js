@@ -3,7 +3,7 @@ import { useGame } from "../contexts/GameContext";
 import "../styles/style.scss";
 import Swal from "sweetalert2";
 
-const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
+const StrengthenModal = ({ equipmentPart, isOpen, onClose }) => {
   const [top, setTop] = useState(false);
   const [color, setColor] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -21,21 +21,30 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
     });
   };
 
+  const topAlert = () => {
+    Swal.fire({
+      title: "已達上限,無法強化",
+      showConfirmButton: false,
+      timer: 1000,
+      position: "top",
+    });
+  };
+
   //主要設定click 扣money& 增加equipmentLevel
   const clickHandler = () => {
+    const currentEquipment = equipment?.[equipmentPart];
+    if (!currentEquipment) {
+      return;
+    }
     if (gold - 100 < 0) {
       showAlert();
       return;
     }
-    if (!currentEquipment) {
-      console.error(`Equipment type ${equipmentType} not found.`);
+    if (currentEquipment?.strengthenLevel === 15) {
+      topAlert();
       return;
     }
-    if (currentEquipment.level === 15) {
-      return;
-    }
-
-    increaseEquipmentLevel(equipmentType);
+    increaseEquipmentLevel(equipmentPart);
     decreaseGold(100);
     setIsClicked(true);
     setTimeout(() => setIsClicked(false), 200);
@@ -43,19 +52,19 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
 
   useEffect(() => {
     //接收equipment 傳遞的 選擇部位 --> 設為currentEquipment
-    const currentEquipment = equipment?.[equipmentType];
-    if (!equipment) {
+    const currentEquipment = equipment?.[equipmentPart];
+    if (!currentEquipment || !currentEquipment.item) {
       return;
     }
     setCurrentEquipment(currentEquipment);
 
     let color;
-    switch (currentEquipment.rarity) {
+    switch (currentEquipment?.item?.rarity) {
       case "精良":
-        color = "blue";
+        color = "lightgreen";
         break;
       case "極品":
-        color = "yellow";
+        color = "lightblue";
         break;
       case "傳說":
         color = "gold";
@@ -65,14 +74,14 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
     }
     setColor(color);
 
-    if (currentEquipment.level === 15) {
+    if (currentEquipment?.strengthenLevel === 15) {
       setTop(true);
       setIsDisabled(true);
     } else {
       setTop(false);
       setIsDisabled(false);
     }
-  }, [equipment, equipmentType]);
+  }, [equipment, equipmentPart]);
 
   return (
     <>
@@ -83,17 +92,19 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
           <div>
             <span>稀有度: </span>
             <span style={{ color: color, fontSize: "1.15rem" }}>
-              {currentEquipment?.rarity}
+              {currentEquipment?.item?.rarity}
             </span>
           </div>
-          <p>
-            {currentEquipment?.name}: Lv
-            {currentEquipment?.level}
-          </p>
-          {currentEquipment?.atk && <p>攻擊:{currentEquipment?.atk}</p>}
-          {currentEquipment?.def && <p>防禦:{currentEquipment?.def}</p>}
-          {currentEquipment?.resistance && (
-            <p>抗性:{currentEquipment?.resistance}</p>
+          <p> Lv: {currentEquipment?.strengthenLevel}</p>
+          <p>{currentEquipment?.item?.name}</p>
+          {currentEquipment?.item?.atk && (
+            <p>攻擊:{currentEquipment?.item?.atk}</p>
+          )}
+          {currentEquipment?.item?.def && (
+            <p>防禦:{currentEquipment?.item?.def}</p>
+          )}
+          {currentEquipment?.item?.resistance && (
+            <p>抗性:{currentEquipment?.item?.resistance}</p>
           )}
           <div className="strengthen-button">
             <button
@@ -101,7 +112,7 @@ const StrengthenModal = ({ equipmentType, isOpen, onClose }) => {
               className={isClicked ? "scale-down" : ""}
               onClick={clickHandler}
             >
-              {top ? "已達上限!!" : "強化"}
+              {top ? "已達上限" : "強化"}
             </button>
             <button onClick={onClose}>取消</button>
           </div>

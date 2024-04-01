@@ -5,7 +5,11 @@ import {
   faBolt,
   faShield,
   faXmark,
-  faWandSparkles,
+  faGavel,
+  faBoxOpen,
+  faGift,
+  faRing,
+  faBox,
 } from "@fortawesome/free-solid-svg-icons";
 // import {} from "@fortawesome/free-brands-svg-icons";
 
@@ -25,7 +29,11 @@ const CancelIcon = ({ onClick }) => {
   </button>;
 };
 
-const WeaponIcon = () => <FontAwesomeIcon icon={faWandSparkles} />;
+const WeaponIcon = () => <FontAwesomeIcon icon={faGavel} />;
+const ArmorIcon = () => <FontAwesomeIcon icon={faBoxOpen} />;
+const RingIcon = () => <FontAwesomeIcon icon={faRing} />;
+const ItemIcon = () => <FontAwesomeIcon icon={faGift} />;
+const EquippedIcon = () => <FontAwesomeIcon icon={faBox} />;
 
 export {
   HeartIcon,
@@ -34,4 +42,8 @@ export {
   ShieldIcon,
   CancelIcon,
   WeaponIcon,
+  ArmorIcon,
+  RingIcon,
+  ItemIcon,
+  EquippedIcon,
 };

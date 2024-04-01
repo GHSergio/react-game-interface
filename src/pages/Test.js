@@ -5,6 +5,7 @@ import ConfirmationModal from "../components/ConfirmationModal";
 import BackpackModal from "../components/BackpackModal";
 import AttributeModal from "../components/AttributeModal";
 import Swal from "sweetalert2";
+import StatsEffect from "../components/StatsEffect";
 
 const showAlert = () => {
   Swal.fire({
@@ -83,6 +84,8 @@ function Test() {
     decreaseEnergy,
     increaseHp,
     decreaseHp,
+
+    // currentStats,
   } = useGame();
 
   const [isBackpackModalOpen, setIsBackpackModalOpen] = useState(false);
@@ -485,7 +488,9 @@ function Test() {
           </div>
         </div>
       </div>
+      <StatsEffect />
     </div>
+
     // </div>
   );
 }

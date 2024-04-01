@@ -21,6 +21,7 @@ const MenuModal = ({ index, isOpen, onClose }) => {
   const {
     items,
     usedItem,
+    equipItem,
     sellItem,
     isQuantityInputModalOpen,
     setIsQuantityInputModalOpen,
@@ -36,12 +37,13 @@ const MenuModal = ({ index, isOpen, onClose }) => {
     if (action === "use") {
       setCurrentAction("use");
       setIsQuantityInputModalOpen(true);
+    } else if (action === "equip") {
+      equipItem(item);
     } else if (action === "sell") {
       setCurrentAction("sell");
       setIsQuantityInputModalOpen(true);
     } else if (action === "cancel") {
       setIsQuantityInputModalOpen(false);
-      setIsMenuModalOpen(false);
     }
     setIsMenuModalOpen(false);
   };
@@ -66,7 +68,12 @@ const MenuModal = ({ index, isOpen, onClose }) => {
     <>
       <dialog className={`menu-list ${isOpen ? "" : "hidden"} `} tabIndex="0">
         <div className="modal-button-container">
-          <button onClick={() => handleItemClick("use")}>使用</button>
+          {item.class === "物品" && (
+            <button onClick={() => handleItemClick("use")}>使用</button>
+          )}
+          {item.class === "裝備" && (
+            <button onClick={() => handleItemClick("equip")}>裝備</button>
+          )}
           <button onClick={() => handleItemClick("sell")}>出售</button>
           <button onClick={() => handleItemClick("cancel")}>取消</button>
         </div>

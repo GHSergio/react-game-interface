@@ -7,13 +7,13 @@ const StrengthenListModal = ({
   onClose,
   className,
 }) => {
-  const { equipment } = useGame();
   const [activeButton, setActiveButton] = useState(null);
+  const { equipment } = useGame();
 
-  //接收裝備type,設置ActiveButton & onEquipmentPartClick 為
-  const handleButtonClick = (equipmentType) => {
-    setActiveButton(equipmentType);
-    onEquipmentPartClick(equipmentType);
+  //接收部位,設置ActiveButton & onEquipmentPartClick 為該部位
+  const handleButtonClick = (equipmentPart) => {
+    setActiveButton(equipmentPart);
+    onEquipmentPartClick(equipmentPart);
   };
 
   return (
@@ -22,16 +22,37 @@ const StrengthenListModal = ({
 
       <dialog open={isOpen} className={isOpen && `${className}`} tabIndex="0">
         <button onClick={onClose}>取消強化</button>
-        {Object.entries(equipment).map(([type, item]) => (
+        {Object.entries(equipment).map(([part, { item, strengthenLevel }]) => (
           <button
-            key={type}
-            className={activeButton === type ? "active-button" : ""}
-            onClick={() => handleButtonClick(type)}
+            key={part}
+            className={activeButton === part ? "active-button" : ""}
+            onClick={() => handleButtonClick(part)}
           >
-            {item.type}
-            <span>
-              Lv:{item.level} {item.name}
-            </span>
+            <>
+              <span>
+                {part === "arms"
+                  ? `Lv.${strengthenLevel} 武器`
+                  : part === "helmet"
+                  ? `Lv.${strengthenLevel} 頭盔`
+                  : part === "armor"
+                  ? `Lv.${strengthenLevel} 鎧甲`
+                  : part === "legArmor"
+                  ? `Lv.${strengthenLevel} 護腿`
+                  : part === "gloves"
+                  ? `Lv.${strengthenLevel} 護手`
+                  : part === "boots"
+                  ? `Lv.${strengthenLevel} 靴子`
+                  : part === "amulet"
+                  ? `Lv.${strengthenLevel} 護符`
+                  : part === "ring"
+                  ? `Lv.${strengthenLevel} 戒指`
+                  : ""}
+              </span>
+              {item ? <span>{item.name}</span> : <span> 部位尚未裝備 </span>}
+              {item && item.atk && <span>攻擊: {item.atk}</span>}
+              {item && item.def && <span>防禦: {item.def}</span>}
+              {item && item.resistance && <span>抗性: {item.resistance}</span>}
+            </>
           </button>
         ))}
       </dialog>

@@ -3,9 +3,11 @@ import { useGame } from "../contexts/GameContext";
 import "../styles/style.scss";
 import StrengthenModal from "../components/StrengthenModal";
 import StrengthenListModal from "../components/StrengthenListModal";
+import StatsEffect from "../components/StatsEffect";
+import Swal from "sweetalert2";
 
 const Test2 = () => {
-  const { gold } = useGame();
+  const { gold, equipment } = useGame();
   const [isStrengthenListModalOpen, setIsStrengthenListModalOpen] =
     useState(false);
   const [isStrengthenModalOpen, setIsStrengthenModalOpen] = useState(false);
@@ -14,10 +16,23 @@ const Test2 = () => {
   const [currentOpenModal, setCurrentOpenModal] = useState(null);
 
   //接收type 將其設為 選擇部位value
-  const handleEquipmentPartClick = (equipmentType) => {
-    setSelectedEquipmentPart(equipmentType);
-    setIsStrengthenModalOpen(true);
-    setCurrentOpenModal("StrengthenModal");
+  const handleEquipmentPartClick = (equipmentPart) => {
+    const equippedItem = equipment[equipmentPart];
+    if (equippedItem.item && Object.keys(equippedItem).length !== 0) {
+      setSelectedEquipmentPart(equipmentPart);
+      setIsStrengthenModalOpen(true);
+      setCurrentOpenModal("StrengthenModal");
+    } else {
+      Swal.fire({
+        html: `
+        <p>部位尚未裝備</p>
+        <p>無法進行強化</p>
+        `,
+        showConfirmButton: false,
+        width: 250,
+        timer: 1000,
+      });
+    }
   };
 
   const handleCloseStrengthenModal = () => {
@@ -63,7 +78,6 @@ const Test2 = () => {
             onEquipmentPartClick={handleEquipmentPartClick}
             onClose={() => setIsStrengthenListModalOpen(false)}
             className="strengthen-container"
-            // currentOpenModal={currentOpenModal}
           />
         )}
 
@@ -71,11 +85,12 @@ const Test2 = () => {
           <StrengthenModal
             isOpen={isStrengthenModalOpen}
             //將選取部位 傳遞給strengthenModal
-            equipmentType={selectedEquipmentPart}
+            equipmentPart={selectedEquipmentPart}
             onClose={handleCloseStrengthenModal}
           />
         )}
       </div>
+      <StatsEffect />
     </div>
   );
 };
