@@ -1,6 +1,7 @@
 {
   "name": "practice",
   "version": "0.1.0",
+  "homepage": "https://GHSergio.github.io/react-game-interface ",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -10,8 +11,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.1.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "gh-pages": "^4.0.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
@@ -21,7 +23,9 @@
     "dev-server": "json-server --watch db.json --port 3001",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
