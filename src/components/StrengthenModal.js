@@ -70,7 +70,7 @@ const StrengthenModal = ({ equipmentPart, isOpen, onClose }) => {
         color = "gold";
         break;
       default:
-        color = "grey";
+        color = "white";
     }
     setColor(color);
 
