@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.css": "/react-game-interface%20/static/css/main.1afba6a5.css",
+    "main.js": "/react-game-interface%20/static/js/main.6929f71c.js",
+    "index.html": "/react-game-interface%20/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.1afba6a5.css",
+    "static/js/main.6929f71c.js"
+  ]
+}
