@@ -1,11 +1,13 @@
 {
   "files": {
-    "main.css": "/react-game-interface%20/static/css/main.1afba6a5.css",
-    "main.js": "/react-game-interface%20/static/js/main.6929f71c.js",
-    "index.html": "/react-game-interface%20/index.html"
+    "main.css": "/react-game-interface%20/static/css/main.39caa467.css",
+    "main.js": "/react-game-interface%20/static/js/main.ff764b2c.js",
+    "index.html": "/react-game-interface%20/index.html",
+    "main.39caa467.css.map": "/react-game-interface%20/static/css/main.39caa467.css.map",
+    "main.ff764b2c.js.map": "/react-game-interface%20/static/js/main.ff764b2c.js.map"
   },
   "entrypoints": [
-    "static/css/main.1afba6a5.css",
-    "static/js/main.6929f71c.js"
+    "static/css/main.39caa467.css",
+    "static/js/main.ff764b2c.js"
   ]
 }
