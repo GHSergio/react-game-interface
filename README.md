@@ -32,8 +32,4 @@ npm start
 
 #### 至網頁
 
-```
-https://ghsergio.github.io/react-game-interface
-```
-
-##### 使用工具與版本
+- Live Site URL: [前往 git pages](https://ghsergio.github.io/react-game-interface/)
