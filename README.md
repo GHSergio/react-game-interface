@@ -32,4 +32,4 @@ npm start
 
 #### 至網頁
 
-- Live Site URL: [前往 git pages](https://ghsergio.github.io/react-game-interface/)
+- Live Site URL: [前往https://ghsergio.github.io/react-game-interface/](https://ghsergio.github.io/react-game-interface/)
